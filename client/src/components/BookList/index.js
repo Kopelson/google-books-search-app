@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 const styles = {
   height: "50vh"
@@ -13,22 +13,24 @@ export function BookList({ children }) {
 
 // BookListItem renders a bootstrap list item containing data from the recipe api call
 export function BookListItem({
+  id,
   title,
   subtitle,
   image,
-  author,
+  authors,
   description,
-  link
+  link,
+  onClick
 }) {
   return (
     <li className="list-group-item">
       <Container>
         <Row style={styles} className="mt-3 mb-3">
-          <Col className="col-lg-2">
+          <Col className="col-lg-2 overflow-auto" style={styles}>
             <h3>{title}</h3>
             <h6>{subtitle}</h6>
           </Col>
-          <Col className="col-lg-2"><p>Author(s): {author.join(", ")}</p></Col>
+          <Col className="col-lg-2 overflow-auto" style={styles}><p>Author(s): {authors.join(", ")}</p></Col>
           <Col className="col-lg-2">
             <img src={image} alt={title} />
           </Col>
@@ -37,6 +39,7 @@ export function BookListItem({
           </Col>
           <Col className="col-lg-2">
             <a className="btn btn-dark" href={link} target="_blank" rel="noopener noreferrer">Info</a>
+            <Button className="btn-success ml-3" onClick={() => onClick(id, title, subtitle, authors, description, image, link)}>Save</Button>
           </Col>
         </Row>
       </Container>

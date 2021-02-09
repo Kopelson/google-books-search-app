@@ -11,7 +11,7 @@ function Search() {
     // Setting our component's initial state
     const [bookSearch, setBookSearch] = useState("")
     const [bookLog, setBookLog] = useState({});
-
+  
     const handleInputChange = event => {
         const { value } = event.target;
         setBookSearch(value);
@@ -30,6 +30,20 @@ function Search() {
       })
       .catch(err => console.log(err));
     };
+
+    function handleSave(key, title, subtitle, authors, description, image, link) {
+        API.saveBook({
+          key : key,
+          title : title,
+          subtitle : subtitle,
+          authors : authors,
+          description : description,
+          image : image,
+          link : link
+        })
+        .catch(err => console.log(err));
+    };
+  
     
   return (
     <div>
@@ -68,11 +82,11 @@ function Search() {
             } else {
               title = book.volumeInfo.subtitle;
             }
-            let author = [];
+            let authors = [];
             if(book.volumeInfo.authors === undefined){
-              author = ["No Author"];
+              authors = ["No Author"];
             } else {
-              author = book.volumeInfo.authors;
+              authors = book.volumeInfo.authors;
             }
             let description = "";
             if (book.volumeInfo.description){
@@ -95,12 +109,14 @@ function Search() {
               return (
                 <BookListItem
                   key={id}
+                  id={id}
                   title={title}
                   subtitle={subtitle}
-                  author={author}
+                  authors={authors}
                   description={description}
                   image={image} 
                   link={link}
+                  onClick={handleSave}
                 />
               );
             })} 
