@@ -3,9 +3,11 @@ import Hero from "../components/Hero";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Row from 'react-bootstrap/Row';
 import API from "../utils/API";
-import { BookList, BookListItem } from "../components/BookList";
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import { List } from "../components/List";
 
 function Search() {
     // Setting our component's initial state
@@ -44,25 +46,37 @@ function Search() {
         .catch(err => console.log(err));
     };
   
+    const styles = {
+      container: {
+        height: "50vh"
+      },
+      description: {
+        height: "20vh"
+      }
+    }
     
   return (
     <div>
       <Hero></Hero>
-      <Row>
+    
+          <Card className="m-3 p-3">
+            <h3>Book Search</h3>
           <Form>
               <Form.Group controlId="query" value={bookSearch} onChange={handleInputChange}>
-                  <Form.Label>Book Search:</Form.Label>
+                  <Form.Label>Book:</Form.Label>
                   <Form.Control placeholder="Harry Potter" />
-                  <Button className="btn-dark d-flex justify-content-center mt-3" onClick={handleFormSubmit}>Search</Button>
+                  <Button className="btn-dark col-3 float-right mt-3 mb-3" onClick={handleFormSubmit}>Search</Button>
               </Form.Group>
           </Form>
-        </Row>
-        <Row>
-          <Card>
+          
+          </Card>
+
+          <Card className="m-3 p-3">
+            <h3>Results:</h3>
         {!bookLog.length ? (
               <h1 className="text-center">No Books to Display</h1>
             ) : (
-          <BookList>
+          <List>
           {bookLog.map(book => {
             let id = "";
             if(book.id === undefined){
@@ -107,23 +121,34 @@ function Search() {
               link = ""
             }
               return (
-                <BookListItem
-                  key={id}
-                  id={id}
-                  title={title}
-                  subtitle={subtitle}
-                  authors={authors}
-                  description={description}
-                  image={image} 
-                  link={link}
-                  onClick={handleSave}
-                />
+                <li className="list-group-item" key={book.id}>
+                    <Container style={styles.container} >
+                      <Row  className="mt-3 mb-3">
+                        <Col className="col-lg-4 overflow-auto" >
+                          <h3>{title}</h3>
+                          <h6>{subtitle}</h6>
+                          <p>Written By: {authors.join(", ")}</p>
+                        </Col>
+                        <Col md={{ span: 4, offset: 6 }} className="col-lg-2">
+                          <a className="btn btn-dark" href={link} target="_blank" rel="noopener noreferrer">View</a>
+                          <Button className="btn-success ml-3" onClick={() => handleSave(id, title, subtitle, authors, description, image, link)}>Save</Button>
+                        </Col>
+                        </Row>
+                        <Row>
+                        <Col className="col-lg-4">
+                          <img src={image} alt={title} />
+                        </Col>
+                        <Col className="col-lg-8 overflow-auto" style={styles.description} >
+                          <p>{description}</p>
+                        </Col>
+                      </Row>
+                    </Container>
+                  </li>
               );
             })} 
-          </BookList>
+          </List>
             )}
         </Card>
-      </Row>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import React from "react";
 function Footer() {
   return (
     <footer className="footer">
-      <span>Proudly built using React.js</span>
+      <span><small>Proudly built using React.js by Ken Kopelson</small></span>
     </footer>
   );
 }

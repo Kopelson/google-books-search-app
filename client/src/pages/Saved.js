@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
-import { List, ListItem } from "../components/List";
+import { List } from "../components/List";
 
 function Saved() {
    // Setting our component's initial state
@@ -35,48 +35,55 @@ function Saved() {
   }
   
   const styles = {
-    height: "50vh"
+    container: {
+      height: "50vh"
+    },
+    description: {
+      height: "20vh"
+    }
+    
   }
  
   return (
     <div>
         <Hero></Hero>
-        <Row>
-          <Card>
+          <Card className="m-3 p-3" >
+            <h3 className="mb-3">Saved Books:</h3>
           {books.length ? (
               <List>
                 {books.map(book => {
                   return (
-                    <li className="list-group-item">
-                    <Container>
-                      <Row style={styles} className="mt-3 mb-3">
-                        <Col className="col-lg-2 overflow-auto" style={styles}>
+                    <li className="list-group-item" key={book.key}>
+                    <Container style={styles.container} >
+                      <Row  className="mt-3 mb-3">
+                        <Col className="col-lg-4 overflow-auto" >
                           <h3>{book.title}</h3>
                           <h6>{book.subtitle}</h6>
+                          <p>Written By: {book.authors.join(", ")}</p>
                         </Col>
-                        <Col className="col-lg-2 overflow-auto" style={styles}><p>Author(s): {book.authors}</p></Col>
-                        <Col className="col-lg-2">
+                        <Col md={{ span: 4, offset: 6 }} className="col-lg-2">
+                          <a className="btn btn-dark" href={book.link} target="_blank" rel="noopener noreferrer">View</a>
+                          <Button className="btn-danger ml-3" onClick={() => deleteBook(book._id)}>Delete</Button>
+                        </Col>
+                        </Row>
+                        <Row>
+                        <Col className="col-lg-4">
                           <img src={book.image} alt={book.title} />
                         </Col>
-                        <Col className="col-lg-4 overflow-auto" style={styles}>
+                        <Col className="col-lg-8 overflow-auto" style={styles.description} >
                           <p>{book.description}</p>
-                        </Col>
-                        <Col className="col-lg-2">
-                          <a className="btn btn-dark" href={book.link} target="_blank" rel="noopener noreferrer">Info</a>
-                          <Button className="btn-danger ml-3" onClick={() => deleteBook(book._id)}>Delete</Button>
                         </Col>
                       </Row>
                     </Container>
                   </li>
+                  
                   );
                 })}
               </List>
             ) : (
               <h3>No Results to Display</h3>
             )}
-
           </Card>
-      </Row>
     </div>
   );
 }
