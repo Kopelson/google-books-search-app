@@ -7,10 +7,17 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import { List } from "../components/List";
+import Alert from 'react-bootstrap/Alert';
 
 function Saved() {
    // Setting our component's initial state
    const [books, setBooks] = useState([])
+   const [alert, setAlert] = useState({
+    title: "",
+    display: {
+      display:"none"
+    }
+  })
  
    // Load all books and store them with setBooks
    useEffect(() => {
@@ -28,9 +35,17 @@ function Saved() {
    };
 
    // Deletes a book from the database with a given id, then reloads books from the db
-  function deleteBook(id) {
+  function deleteBook(id, title) {
     API.deleteBook(id)
       .then(res => loadBooks())
+      .then(
+        setAlert({
+          title: title,
+          display: {
+            display: "block"
+          }
+        })
+      )
       .catch(err => console.log(err));
   }
   
@@ -47,6 +62,17 @@ function Saved() {
   return (
     <div>
         <Hero></Hero>
+        <Alert variant="danger" style={alert.display}  onClose={() => (
+          setAlert({
+            title: "",
+            display: {
+              display:"none"
+            }
+          })
+        )}
+        dismissible>
+          <p>{alert.title} has been deleted!</p>
+        </Alert>
           <Card className="m-3 p-3" >
             <h3 className="mb-3">Saved Books:</h3>
           {books.length ? (
@@ -63,7 +89,7 @@ function Saved() {
                         </Col>
                         <Col md={{ span: 4, offset: 6 }} className="col-lg-2">
                           <a className="btn btn-dark" href={book.link} target="_blank" rel="noopener noreferrer">View</a>
-                          <Button className="btn-danger ml-3" onClick={() => deleteBook(book._id)}>Delete</Button>
+                          <Button className="btn-danger ml-3" onClick={() => deleteBook(book._id, book.title)}>Delete</Button>
                         </Col>
                         </Row>
                         <Row>

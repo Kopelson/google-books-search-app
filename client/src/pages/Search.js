@@ -8,11 +8,18 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import { List } from "../components/List";
+import Alert from 'react-bootstrap/Alert';
 
 function Search() {
     // Setting our component's initial state
     const [bookSearch, setBookSearch] = useState("")
     const [bookLog, setBookLog] = useState({});
+    const [alert, setAlert] = useState({
+      title: "",
+      display: {
+        display:"none"
+      }
+    })
   
     const handleInputChange = event => {
         const { value } = event.target;
@@ -42,7 +49,14 @@ function Search() {
           description : description,
           image : image,
           link : link
-        })
+        }).then(
+          setAlert({
+            title: title,
+            display: {
+              display: "block"
+            }
+          })
+        )
         .catch(err => console.log(err));
     };
   
@@ -58,7 +72,17 @@ function Search() {
   return (
     <div>
       <Hero></Hero>
-    
+        <Alert variant="success" style={alert.display}  onClose={() => (
+          setAlert({
+            title: "",
+            display: {
+              display:"none"
+            }
+          })
+        )}
+        dismissible>
+          <p>{alert.title} has been saved!</p>
+        </Alert>
           <Card className="m-3 p-3">
             <h3>Book Search</h3>
           <Form>
