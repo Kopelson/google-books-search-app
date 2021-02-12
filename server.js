@@ -19,9 +19,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks", {
-  useNewUrlParser: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+
 });
 
 // Define API routes here
