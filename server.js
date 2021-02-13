@@ -1,14 +1,9 @@
 const express = require("express");
-const bodyParser = require('body-parser');
-const cors = require('cors');
 const mongoose = require("mongoose");
 const routes = require("./routes");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
-
-app.use(bodyParser.json());
-app.use(cors());
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -19,7 +14,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googleBooksDB", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
