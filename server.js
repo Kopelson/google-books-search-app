@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const routes = require("./routes");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
+const host = '0.0.0.0';
 const app = express();
 
 // Define middleware here
@@ -33,6 +34,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, host, () => {
   console.log(`🌎 ==> API server now on port ${PORT}!`);
 });
