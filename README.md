@@ -1,5 +1,5 @@
-# Google Books Search App
-## Description
+# Google Books Search App :
+
  This is a React-based Google Books Search app. This is a MERN (MongoDB, Express, React, Node) stack that allows users to save books to review or purchase later.
 
 ## Overview
